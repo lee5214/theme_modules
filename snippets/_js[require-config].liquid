@@ -1,0 +1,119 @@
+<script>
+  require.config({
+    waitSeconds: 15,
+    shim: {
+      // Modules outside Shopify servers and assets folder
+      jquery: {
+        exports: '$'
+      },
+      webFont: {
+        exports: 'WebFont'
+      },
+      currencyRates: {
+        exports: "Currency"
+      },
+      countries: {
+        exports: 'Countries'
+      },
+      underscore: {
+        exports: '_'
+      },
+      googleMapsApi: {
+        exports: 'google'
+      },
+
+      // Modules from Shopify server
+      shopifyCommon: {
+        exports: "Shopify"
+      },
+      ajaxApiShopify: ['jquery'],
+
+      // Third-party modules
+      'jquery.flexslider': ['jquery'],
+      'jquery.currencies': {
+        deps: ['jquery', 'currencyRates'],
+        exports: "Currency"
+      },
+      'jquery.cart': ['jquery', 'underscore', 'shopifyCommon', 'jquery.currencies', 'shopInfo'],
+      swiper: {
+        exports: 'Swiper'
+      },
+      instafeed: {
+        exports: 'Instafeed'
+      },
+      recorder: {
+        exports: 'Recorder'
+      },
+      gruitPopup: {
+        deps: ['snapSVG'],
+        exports: 'GruitPopup'
+      },
+      snapSVG: {
+        exports: 'Snap'
+      },
+      flipclock: {
+        exports: 'FlipClock'
+      },      
+    },
+
+
+
+    paths: {
+      // Modules outside Shopify servers
+      jquery:              '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min',
+      webFont:             '//ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont',      
+      currencyRates:       '//cdn.shopify.com/s/javascripts/currencies',
+      countries:           '/services/javascripts/countries',
+      underscore:          '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min',
+      googleMapsApi:       "{{ 'https://maps.googleapis.com/maps/api/js?key=' | append: settings.contact_google_api }}",
+
+      // Modules from Shopify server
+      shopifyCommon:       "{{ 'shopify_common.js' | shopify_asset_url | split:'.js' | first }}",
+      ajaxApiShopify:      "{{ 'api.jquery.js' | shopify_asset_url | split:'.js' | first  }}",      
+
+      // Third-party modules
+      'jquery.flexslider': "{{ 'js-third-party.flexslider.min.js' | asset_url }}",      
+      'jquery.cart':       "{{ 'js-third-party.jquery.cart.min.js' | asset_url }}",
+      'jquery.currencies': "{{ 'js-third-party.jquery.currencies.js' | asset_url }}",
+      swiper:              "{{ 'js-third-party.swiper.min.js' | asset_url }}",
+      instafeed:           "{{ 'js-third-party.instafeed.js' | asset_url }}",
+      recorder:            "{{ 'js-third-party.recorder.js' | asset_url }}",
+      snapSVG:             "{{ 'js-third-party.snap.svg-min.js' | asset_url }}",
+      fetchPolyfill:       "{{ 'js-third-party.fetch.js' | asset_url }}",
+      flipclock:           "{{ 'js-third-party.flipclock.js' | asset_url }}",
+
+      // Custom modules (from assets folder)
+      headerSearchBox:             "{{ '_js-module.headerSearchBox.js' | asset_url }}",
+      productVariantsConverter:    "{{ '_js-module.productVariantsConverter.js' | asset_url }}",
+      productBuilderProductPicker: "{{ '_js-module.productBuilderProductPicker.js' | asset_url }}",
+      productBuilderTab:           "{{ '_js-module.productBuilderTab.js' | asset_url }}",
+      speechRecognizer:            "{{ '_js-module.speechRecognizer.js' | asset_url }}",
+      utils:                       "{{ '_js-module.utils.js' | asset_url }}",
+      quantityBox:                 "{{ '_js-module.quantityBox.js' | asset_url }}",
+      scrollbar:                   "{{ '_js-module.scrollbar.min.js' | asset_url }}",
+      collectionSorting:           "{{ '_js-module.collectionSorting.js' | asset_url }}",
+      instagramFeed:               "{{ '_js-module.instagramFeed.js' | asset_url }}",
+      gruitPopup:                  "{{ '_js-module.gruit-popup.js' | asset_url }}",
+      popupDiscount:               "{{ '_js-module.popupDiscount.js' | asset_url }}",
+      specialPackaging:            "{{ '_js-module.specialPackaging.js' | asset_url }}",
+      currencyInit:                "{{ '_js-module.currencyInit.js' | asset_url }}",
+      googleMaps:                  "{{ '_js-module.googleMaps.js' | asset_url }}",
+      ajaxSearch:                  "{{ '_js-module.ajaxSearch.js' | asset_url }}",
+      blogSorting:                 "{{ '_js-module.blogSorting.js' | asset_url }}",
+      pJax:                        "{{ '_js-module.pjax.js' | asset_url }}",
+      reviewsModal:                "{{ '_js-module.reviewsModal.js' | asset_url }}",
+      lookbookPicker:              "{{ '_js-module.lookbookPicker.js' | asset_url }}",
+
+      // Modules from foodly.js
+      drawers:                     "{{ '_js-module.drawers.js' | asset_url }}",
+      parallax:                    "{{ '_js-module.parallax.js' | asset_url }}",
+      formValidation:              "{{ '_js-module.formValidation.js' | asset_url }}",      
+      dropdowns:                   "{{ '_js-module.dropdowns.js' | asset_url }}",
+      header:                      "{{ '_js-module.header.js' | asset_url }}",
+      customerForms:               "{{ '_js-module.customerForms.js' | asset_url }}",
+      wishlist:                    "{{ '_js-module.wishlist.js' | asset_url }}",
+      helpers:                     "{{ '_js-module.helpers.js' | asset_url }}",
+      ajaxCart:                    "{{ '_js-module.ajaxCart.js' | asset_url }}",
+    }
+  });
+</script>

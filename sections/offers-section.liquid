@@ -1,0 +1,155 @@
+{% comment %}
+Calculation columns for spesial offer
+{% endcomment %}
+
+{% comment %}
+Choose css grid for columns number
+{% endcomment %}
+{% case section.blocks.size %}
+  {% when 0 %}
+  {% when 1 %}
+    {% assign special_offer_colunm_width = 'spesial-offer spesial-offer--full' %}
+  {% when 2 %}
+    {% assign special_offer_colunm_width = 'spesial-offer' %}
+{% endcase %}
+
+
+  <div class="special-offer-container clearfix">
+    
+    {% for block in section.blocks %}
+      <style>
+        {% capture spesial_offer_img_mobile %}{{ block.settings.img__special_offer_lg | img_url: '1500x' | format: 'jpg' }}{% endcapture %}
+        
+        .spesial-offer--img-{{ block.id }} {
+          {% if spesial_offer_img_mobile  contains 'no-image' %}
+            {% capture spesial_offer_img_mobile_fallback %}img_homepage_special_mb_{{ forloop.index }}.jpg{% endcapture %}
+            background-image: url({{ spesial_offer_img_mobile_fallback | asset_url }});
+          {% else %}
+            background-image: url({{ spesial_offer_img_mobile }});
+          {% endif %}
+        }
+        
+        .spesial-offer--img-{{ block.id }} .spesial-offer__info:before {
+          background-color: {{ block.settings.color_mark  }};
+        }
+
+        .spesial-offer--img-{{ block.id }} .spesial-offer__desc {
+          color: {{ block.settings.color_mark_text }};
+        }
+
+        .spesial-offer--img-{{ block.id }} .spesial-offer__mark {
+          color: {{ block.settings.color_mark_text }};
+          background-color: {{ block.settings.color_mark  }};
+        }
+        
+        @media (min-width: 769px) {
+          .spesial-offer--img-{{ block.id }} {
+            {% capture spesial_offer_img %}{{ block.settings.img__special_offer_xs | img_url: '750x' | format: 'jpg' }}{% endcapture %}
+            {% if spesial_offer_img_mobile  contains 'no-image' %}
+              {% capture spesial_offer_img_fallback %}img_homepage_special_mb_{{ forloop.index }}.jpg{% endcapture %}
+              background-image: url({{ spesial_offer_img_fallback | asset_url }});
+            {% else %}
+              background-image: url({{ spesial_offer_img }});
+            {% endif %}
+          }
+        }
+      </style>
+      <a href="{{ block.settings.btn_url }}">
+        <div class="{% if forloop.first %}spesial-offer--one{% else %}spesial-offer--two{% endif %} {{ special_offer_colunm_width }} spesial-offer--img-{{ block.id }}">
+          <h3 class="heading--page">{{ block.settings.heading | upcase }}</h3>
+          <h4 class="subheading--page"><em>{{ block.settings.subheading }}</em></h4>
+
+          
+          {% if block.settings.mark_enable %}
+            <div class="spesial-offer__info">
+              <span class="spesial-offer__mark">
+                <strong>{{ block.settings.mark_price }}</strong>
+              </span>
+              <span class="spesial-offer__desc">
+                <strong>{{ block.settings.mark_title }}</strong>
+              </span>
+            </div>
+          {% endif %}
+          
+        </div> <!-- End special-offer -->
+      </a>
+    {% endfor %}
+  </div> <!-- End special-offer-container -->
+
+
+{% schema %}
+  {
+    "name": "Offer Section",
+    "max_blocks": 2,
+	"blocks": [
+      {
+          "type": "offer_section",
+          "name": "Offer Section",
+          "settings": [
+              {
+                "type": "image_picker",
+                "id": "img__special_offer_lg",
+                "label": "Background image"
+              },      
+              {
+                "type": "image_picker",
+                "id": "img__special_offer_xs",
+                "label": "Background image for mobile devices"
+              },
+              {
+                "type": "text",
+                "id": "heading",
+                "label": "Heading",
+                "default": "Start your day"
+              },
+              {
+                "type": "text",
+                "id": "subheading",
+                "label": "Subheading",
+                "default": "with vit-plate"
+              },
+              {
+                "type": "checkbox",
+                "id": "mark_enable",
+                "label": "Show offer point"
+              },
+              {
+                "type": "color",
+                "id": "color_mark",
+                "label": "Point color",
+                "default": "#f3b562"
+              },
+              {
+                "type": "color",
+                "id": "color_mark_text",
+                "label": "Text color",
+                "default": "#5c4b51"
+              },
+              {
+                "type": "text",
+                "id": "mark_title",
+                "label": "Offer point title",
+                "default": "Healthy deal"
+              },
+              {
+                "type": "text",
+                "id": "mark_price",
+                "label": "Offer point price",
+                "default": "special pack"
+              },
+              {
+                "type": "url",
+                "id": "btn_url",
+                "label": "Button link"
+              }
+			]
+		}
+	],
+	"presets": [
+      {
+        "name": "Special Offer Section",
+        "category": "Offers"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,171 @@
+{% if section.blocks.size > 0 %}
+<style>
+  {% if slideshow_zoom == false %}
+  .flexslider-thumb--homepage .slide {
+  	background-size: initial;
+  }
+  {% endif %}
+</style>
+<!-- Flexslider -->
+{%- if settings.homepage_slideshow_autoplay -%}
+  {%- assign autoplay = true -%}
+  {%- assign autoplaySpeed = settings.homepage_slideshow_time_animation -%}
+{%- else -%}
+  {%- assign autoplay = false -%}
+  {%- assign autoplaySpeed = 0 -%}
+{%- endif -%}
+
+<div class="flexslider flexslider-thumb flexslider-thumb--homepage" data-autoplay="{{ autoplay }}" data-autoplay-speed="{{ autoplaySpeed }}">
+  <ul class="slides">
+    {% for block in section.blocks %}
+      {% capture slide_img %}{{ block.settings.image | img_url: '2000x' | format: 'jpg' }}{% endcapture %}
+          {% capture slide_thumb_img %}{{ block.settings.image_thumb | img_url: '150x' | format: 'jpg' }}{% endcapture %}
+
+          {% if slide_thumb_img contains 'no-image' %}          
+            {% capture slide_fallback_thumb %}img_thumb_homepage_slide_{{ forloop.index }}.jpg{% endcapture %}
+            <li class="slide slide--{{ forloop.index }} js-img-holder-cover" data-thumb="{{ slide_fallback_thumb | asset_url }}">
+          {% else %}
+            <li class="slide slide--{{ forloop.index }} js-img-holder-cover" data-thumb="{{ slide_thumb_img }}">
+          {% endif %}
+
+          {% if slide_img contains 'no-image' %}
+            {% capture slide_fallback_img %}img_homepage_slide_{{ forloop.index }}.jpg{% endcapture %}
+            <img class="slide__image" src="{{ slide_fallback_img | asset_url }}" />
+          {% else %}            
+            <img class="slide__image" src="{{ slide_img }}" alt="{{ block.settings.heading }}" />
+          {% endif %}
+          
+          {% if block.settings.heading != blank %}
+            <div class="slide__info-wrapper">
+              <div class="slide__info-part">
+                <h1 class="heading--page slide__heading"><a class="slide__link" href="{{ block.settings.link }}" title="{{ block.settings.heading }}">{{ block.settings.heading | upcase }}</a></h1>
+                <h2 class="subheading--page slide__subheading"><a class="slide__link" href="{{ block.settings.link }}" title="{{ block.settings.subheading }}"><em>{{ block.settings.subheading }}</em></a></h2>
+              </div>
+              <div class="slide__price-point">
+                <a class="slide__link" href="{{ block.settings.link }}" title="{{ block.settings.heading }}">
+                  <span class="slide__price"><span class="money">{{ block.settings.price }}</span></span>
+                  <span class="slide__desc"><em>{{ block.settings.price_desc }}</em></span>
+                </a>
+              </div>
+              {% if block.settings.heading_add != blank and block.settings.subheading_add != blank %}
+              <div class="slide__info-part">
+                <h1 class="heading--page slide__heading"><a class="slide__link" href="{{ block.settings.link }}" title="{{ block.settings.heading_add }}">{{ block.settings.heading_add | upcase }}</a></h1>
+                <h2 class="subheading--page slide__subheading"><a class="slide__link" href="{{ block.settings.link }}" title="{{ block.settings.subheading_add }}"><em>{{ block.settings.subheading_add }}</em></a></h2>
+              </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Slideshow",
+    "max_blocks": 3,
+    "settings": [
+      {
+        "type": "select",
+        "id": "slideshow_effect",
+        "label": "Slideshow effect",
+        "options": [
+          {
+            "value": "fade",
+            "label": "Fade"
+          },
+          {
+            "value": "slide",
+            "label": "Slide"
+          }
+        ],
+		"default": "fade"
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow_autoplay",
+        "label": "Autoplay"
+      },
+	  {
+        "type": "text",
+        "id": "slideshow_time_animation",
+        "label": "Time for changing slides",
+        "default": "7000",
+        "info": "Works if autoplay is enabled. Time in milliseconds"
+      },
+	  {
+        "type": "checkbox",
+        "id": "slideshow_zoom",
+        "label": "Stretch image with proportions to a slideshow size",
+		"default": true
+      }
+    ],
+    "blocks": [
+      {
+        "type": "slide",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+		  {
+            "type": "image_picker",
+            "id": "image_thumb",
+            "label": "Thumb image"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link to"
+          },
+		  {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Tomato season"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "nutritious  delicious"
+          },
+          {
+            "type": "text",
+            "id": "price",
+            "label": "Price",
+            "default": "$3.05"
+          },
+          {
+            "type": "text",
+            "id": "price_desc",
+            "label": "Price description",
+            "default": "start point"
+          },
+		  {
+            "type": "text",
+            "id": "heading_add",
+            "label": "Additional heading",
+            "default": "Yes, <strong>Please<\/strong>!"
+          },
+          {
+            "type": "text",
+            "id": "subheading_add",
+            "label": "Additional subheading",
+            "default": "Mmmmm..."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Main Slideshow",
+        "category": "Sliders"
+      }
+    ]
+  }
+{% endschema %}

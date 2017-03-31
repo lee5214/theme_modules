@@ -1,0 +1,7 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "devDependencies": {
+    "gulp-postcss": "^6.4.0"
+  }
+}

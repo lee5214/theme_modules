@@ -1,0 +1,66 @@
+{% comment %}
+Featured product carousel
+For settings go to Admin -> Theme -> Customize Theme -> Home page
+{% endcomment %}
+{%- if section.settings.featured_collection != blank -%}
+
+  {%- if section.settings.autoplay != blank -%}
+    {%- assign autoplay = section.settings.autoplay -%}
+  {%- else -%}
+    {%- assign autoplay = 0 -%}
+  {%- endif -%}
+
+  <!-- Swiper -->
+  <div class="swiper-container carousel carousel--homepage" data-autoplay="{{ autoplay }}">
+    <div class="swiper-wrapper">
+      {% for product in collections[section.settings.featured_collection].products %}
+        <div class="swiper-slide" data-img-bg="{% if product.featured_image.size > 0 %}{{ product.featured_image | img_url: 'grande'}}{% else %}{{ 'img_no_image.jpg' | asset_url }}{% endif %}">
+          {% include 'product-item-grid' %}
+        </div>
+      {% endfor %}
+      
+    </div>
+
+   <div class="carousel__navigation">
+      <!-- Add Arrows -->
+      <div class="homepage-swiper-btn-next carousel-button-next">
+        <span class="icon icon--arrow-right"></span>
+      </div>
+      <!-- Add Pagination -->
+      <div class="swiper-active-slide"></div>
+      
+      <div class="homepage-swiper-btn-prev carousel-button-prev">
+        <span class="icon icon--arrow-left"></span>
+      </div>
+    </div>
+  </div>
+{%- else -%}
+  {% include 'fallback-msg' %}
+{%- endif -%}
+{% schema %}
+  {
+    "name": "Feature Collection",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "featured_collection",
+        "label": "Feature Collection"
+      },
+      {
+        "type": "text",
+        "id": "autoplay",
+        "label": "Time for changing slides",
+        "info": "If this parameter is not specified, autoplay will be disabled. The value should be in milliseconds"
+      }
+    ],
+  	"presets": [
+      {
+        "name": "Feature Collection",
+        "category": "Collections"
+      }
+    ]
+  }
+{% endschema %}
+
+
+      
